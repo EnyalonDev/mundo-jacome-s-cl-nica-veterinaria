@@ -1,0 +1,7 @@
+{
+  "name": "Mundo Jacome's Clínica Veterinaria",
+  "description": "Sitio web oficial de Mundo Jacome's, clínica veterinaria en Táriba, Táchira. Incluye sistema de citas, información de servicios y geolocalización.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}
