@@ -51,14 +51,21 @@ const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenAdmin }) => {
         
         <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-[9px] font-bold tracking-widest uppercase">
           <p className="opacity-40">{footer.copyright}</p>
-          <div className="flex space-x-6">
+          <div className="flex flex-col md:flex-row items-center md:space-x-8 gap-4">
             <button 
               onClick={(e) => { e.preventDefault(); onOpenAdmin(); }}
               className="text-brand hover:text-white transition-colors"
             >
               {footer.adminLink}
             </button>
-            <span className="opacity-40">{footer.privacyLink}</span>
+            <a 
+              href="https://www.nestorovallos.com" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="opacity-40 hover:opacity-100 hover:text-brand transition-all text-center md:text-right"
+            >
+              {footer.privacyLink}
+            </a>
           </div>
         </div>
       </div>

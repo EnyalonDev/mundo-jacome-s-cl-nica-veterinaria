@@ -8,13 +8,25 @@ interface AppointmentFormProps {
   onClose: () => void;
 }
 
+// Tipado de los pasos del formulario para garantizar integridad en la navegación
 type Step = 'SERVICE' | 'PET' | 'OWNER' | 'CALENDAR' | 'REVIEW' | 'SUCCESS';
 
+/**
+ * @component AppointmentForm
+ * @description Formulario multietapa inteligente para la reserva de citas médicas.
+ * Incluye validaciones por paso, gestión de calendario dinámico y previsualización de datos.
+ */
 const AppointmentForm: React.FC<AppointmentFormProps> = ({ onClose }) => {
   const { appointment } = WEB_CONTENT;
+  
+  // Gestión del paso actual
   const [step, setStep] = useState<Step>('SERVICE');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  // Estado para controlar qué mes se muestra en el calendario
   const [currentMonth, setCurrentMonth] = useState(new Date());
+  
+  // Almacenamiento centralizado de los datos del formulario
   const [formData, setFormData] = useState({
     serviceId: '',
     serviceName: '',
@@ -28,17 +40,22 @@ const AppointmentForm: React.FC<AppointmentFormProps> = ({ onClose }) => {
     time: ''
   });
 
+  // Definición del orden lógico de los pasos
   const stepsOrder: Step[] = ['SERVICE', 'PET', 'OWNER', 'CALENDAR', 'REVIEW', 'SUCCESS'];
   const currentStepIndex = stepsOrder.indexOf(step);
 
+  /**
+   * Genera los días del mes para el calendario.
+   * Calcula el desfase inicial (primer día de la semana) y rellena los días correspondientes.
+   */
   const calendarDays = useMemo(() => {
     const year = currentMonth.getFullYear();
     const month = currentMonth.getMonth();
-    const firstDay = new Date(year, month, 1).getDay();
+    const firstDay = new Date(year, month, 1).getDay(); // 0 (Dom) a 6 (Sab)
     const daysInMonth = new Date(year, month + 1, 0).getDate();
     
     const days = [];
-    for (let i = 0; i < firstDay; i++) { days.push(null); }
+    for (let i = 0; i < firstDay; i++) { days.push(null); } // Espacios vacíos para alinear semana
     for (let d = 1; d <= daysInMonth; d++) { days.push(new Date(year, month, d)); }
     return days;
   }, [currentMonth]);
@@ -50,11 +67,17 @@ const AppointmentForm: React.FC<AppointmentFormProps> = ({ onClose }) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  /**
+   * Al seleccionar un servicio, se actualiza el estado y se avanza automáticamente de paso.
+   */
   const selectService = (id: string, name: string) => {
     setFormData({ ...formData, serviceId: id, serviceName: name });
     setStep('PET');
   };
 
+  /**
+   * Valida que la fecha seleccionada no sea en el pasado antes de asignarla.
+   */
   const selectDate = (date: Date) => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -72,25 +95,41 @@ const AppointmentForm: React.FC<AppointmentFormProps> = ({ onClose }) => {
     if (prevStep) setStep(prevStep);
   };
 
+  /**
+   * Envía los datos a Firebase (si está configurado) o simula éxito en modo demo.
+   */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     
+    // Si no hay configuración real de Firebase, simulamos el envío para la demostración
     if (!isConfigValid || !db) {
-      setTimeout(() => { setStep('SUCCESS'); setIsSubmitting(false); }, 1000);
+      console.log("Modo Demo: Simulando envío de cita...", formData);
+      setTimeout(() => { 
+        setStep('SUCCESS'); 
+        setIsSubmitting(false); 
+      }, 1000);
       return;
     }
 
     try {
-      await addDoc(collection(db, "appointments"), { ...formData, status: 'pending', createdAt: serverTimestamp() });
+      await addDoc(collection(db, "appointments"), { 
+        ...formData, 
+        status: 'pending', 
+        createdAt: serverTimestamp() 
+      });
       setStep('SUCCESS');
     } catch (error) {
-      alert("Error al agendar.");
+      console.error("Error al persistir cita:", error);
+      alert("Hubo un problema al agendar. Por favor, intenta de nuevo.");
     } finally {
       setIsSubmitting(false);
     }
   };
 
+  /**
+   * Barra de progreso visual basada en el índice del paso actual.
+   */
   const ProgressBar = () => (
     <div className="mb-8">
       <div className="flex justify-between mb-2 px-1">
@@ -106,6 +145,7 @@ const AppointmentForm: React.FC<AppointmentFormProps> = ({ onClose }) => {
     </div>
   );
 
+  // Pantalla de Confirmación de Éxito
   if (step === 'SUCCESS') {
     return (
       <div className="text-center py-12 px-4 animate-in fade-in zoom-in duration-500">
@@ -123,14 +163,16 @@ const AppointmentForm: React.FC<AppointmentFormProps> = ({ onClose }) => {
 
   return (
     <div className="max-w-xl mx-auto">
-      <div className="mb-6">
+      <header className="mb-6">
         <h2 className="text-2xl font-extrabold text-brand-dark tracking-tight">{appointment.title}</h2>
         {!isConfigValid && <p className="text-amber-600 text-[10px] font-bold uppercase mt-1">{appointment.demoMode}</p>}
-      </div>
+      </header>
 
       <ProgressBar />
 
+      {/* Contenedor principal con altura mínima para evitar saltos bruscos en el diseño */}
       <div className="min-h-[450px]">
+        {/* PASO 1: SELECCIÓN DE SERVICIO */}
         {step === 'SERVICE' && (
           <div className="animate-in slide-in-from-right-8 duration-300">
             <h3 className="text-lg font-bold text-brand-dark mb-6">{appointment.questions.service}</h3>
@@ -150,6 +192,7 @@ const AppointmentForm: React.FC<AppointmentFormProps> = ({ onClose }) => {
           </div>
         )}
 
+        {/* PASO 2: DATOS DE LA MASCOTA */}
         {step === 'PET' && (
           <div className="space-y-6 animate-in slide-in-from-right-8 duration-300">
             <h3 className="text-lg font-bold text-brand-dark">{appointment.questions.pet}</h3>
@@ -174,6 +217,7 @@ const AppointmentForm: React.FC<AppointmentFormProps> = ({ onClose }) => {
           </div>
         )}
 
+        {/* PASO 3: DATOS DEL PROPIETARIO */}
         {step === 'OWNER' && (
           <div className="space-y-6 animate-in slide-in-from-right-8 duration-300">
             <h3 className="text-lg font-bold text-brand-dark">{appointment.questions.owner}</h3>
@@ -200,19 +244,20 @@ const AppointmentForm: React.FC<AppointmentFormProps> = ({ onClose }) => {
           </div>
         )}
 
+        {/* PASO 4: CALENDARIO Y HORA */}
         {step === 'CALENDAR' && (
           <div className="animate-in slide-in-from-right-8 duration-300 space-y-6">
             <div>
               <div className="flex justify-between items-center mb-4">
                 <h3 className="text-lg font-bold text-brand-dark">{appointment.questions.calendar}</h3>
                 <div className="flex gap-2">
-                  <button onClick={handlePrevMonth} className="p-2 hover:bg-brand/10 rounded-full text-brand">
+                  <button onClick={handlePrevMonth} className="p-2 hover:bg-brand/10 rounded-full text-brand" aria-label="Mes anterior">
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"></path></svg>
                   </button>
                   <span className="font-bold text-sm text-brand min-w-[120px] text-center capitalize">
                     {currentMonth.toLocaleDateString('es-ES', { month: 'long', year: 'numeric' })}
                   </span>
-                  <button onClick={handleNextMonth} className="p-2 hover:bg-brand/10 rounded-full text-brand">
+                  <button onClick={handleNextMonth} className="p-2 hover:bg-brand/10 rounded-full text-brand" aria-label="Siguiente mes">
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path></svg>
                   </button>
                 </div>
@@ -253,11 +298,13 @@ const AppointmentForm: React.FC<AppointmentFormProps> = ({ onClose }) => {
           </div>
         )}
 
+        {/* PASO 5: RESUMEN Y CONFIRMACIÓN FINAL */}
         {step === 'REVIEW' && (
           <div className="space-y-6 animate-in slide-in-from-right-8 duration-300">
             <h3 className="text-lg font-bold text-brand-dark">{appointment.questions.review}</h3>
             
             <div className="bg-slate-50 rounded-[2.5rem] p-8 border-2 border-slate-100 space-y-6 relative overflow-hidden">
+              {/* Marca de agua decorativa con el icono del servicio */}
               <div className="absolute top-0 right-0 p-4 opacity-10 text-8xl grayscale pointer-events-none">
                 {appointment.services.find(s => s.id === formData.serviceId)?.icon}
               </div>

@@ -1,31 +1,35 @@
 
 /**
  * ESTRUCTURA DE CONTENIDOS MODULARIZADA - MUNDO JÁCOME'S
- * Cada sección del sitio web tiene su propia constante para facilitar la edición.
+ * 
+ * Este archivo es la ÚNICA fuente de verdad para los textos y medios del sitio.
+ * Está diseñado para que cualquier cambio aquí se refleje automáticamente en la web.
  */
 
 // 1. Configuración de Sistema, SEO y Analítica
+// Útil para marketing y visibilidad en Google
 export const SYSTEM_CONTENT = {
   seo: {
     title: "Mundo Jácome's | Clínica Veterinaria en Táriba, Táchira",
     description: "Centro médico veterinario líder en Táchira. Especialistas en laboratorio clínico, cirugía avanzada y trámites de exportación internacional de mascotas.",
     keywords: "veterinaria tariba, clinica veterinaria tachira, exportacion mascotas venezuela, laboratorio veterinario, cirugia mascotas",
     author: "Mundo Jácome's Digital",
-    ogImage: "https://api.nestorovallos.com/media/general/img/2026-01-01/og-image.jpg"
+    ogImage: "https://api.nestorovallos.com/media/general/img/2026-01-01/og-image.jpg" // Imagen que sale al compartir link por WhatsApp/Facebook
   },
   analytics: {
     googleAnalyticsId: "G-JAC0ME2025",
     facebookPixelId: "PIX-99887766",
-    trackingScripts: "<!-- Custom Scripts Here -->"
+    trackingScripts: "<!-- Scripts adicionales de seguimiento aquí -->"
   },
   config: {
-    maintenanceMode: false,
-    enableChatbot: true,
-    whatsappNumber: "584124506665"
+    maintenanceMode: false, // Activar para ocultar el sitio temporalmente
+    enableChatbot: true,    // Controla la visibilidad de la IA Gemini
+    whatsappNumber: "584124506665" // Número destino para las notificaciones
   }
 };
 
 // 2. Identidad de Marca y Datos Globales
+// Información básica que aparece en cabecera y pie de página
 export const COMMON_CONTENT = {
   name: "Mundo Jácome's",
   tagline: "Clínica Veterinaria",
@@ -51,7 +55,7 @@ export const NAVBAR_CONTENT = {
 export const HERO_CONTENT = {
   badge: "Atención desde las 8:30 AM",
   title: "Excelencia Médica para el Bienestar de tu Mascota",
-  highlight: "Bienestar",
+  highlight: "Bienestar", // Esta palabra saldrá con un color diferente (estilo énfasis)
   subtitle: "Somos el centro de referencia en Táriba para diagnósticos precisos, cirugías de alta complejidad y traslados internacionales seguros.",
   ctaPrimary: "Solicitar Cita Ahora",
   ctaSecondary: "Explorar Servicios",
@@ -60,12 +64,13 @@ export const HERO_CONTENT = {
 };
 
 // 5. Sección de Servicios - NUMERACIÓN SEGÚN SOLICITUD
+// Permite ordenar los servicios visualmente mediante la propiedad 'position'
 export const SERVICES_CONTENT = {
   tag: "Nuestras Especialidades",
   title: "Cuidado Integral y Especializado",
   list: [
     { position: 1, id: 'consulta', title: 'Consulta Médica', description: 'Evaluación exhaustiva por especialistas para garantizar la salud preventiva y curativa de tu mascota.', icon: '🩺' },
-    { position: 2, id: 'exportacion', title: 'Exportación Global', description: 'Gestión certificada de trámites INSAI para que tu mascota viaje a cualquier país sin contratiempos.', icon: '✈️', highlight: true },
+    { position: 2, id: 'exportacion', title: 'Exportación Global', description: 'Gestión certificada de trámites INSAI para que tu mascota viaje a cualquier país sin contratiempos.', icon: '✈️', highlight: true }, // Highlight: sale con color sólido
     { position: 3, id: 'laboratorio', title: 'Laboratorio Clínico', description: 'Equipamiento propio para resultados inmediatos en hematología y química sanguínea.', icon: '🔬' },
     { position: 4, id: 'cirugia', title: 'Cirugía de Avanzada', description: 'Quirófano equipado para procedimientos de tejidos blandos y traumatología especializada.', icon: '✂️' },
     { position: 5, id: 'estetica', title: 'Estética Veterinaria', description: 'Grooming profesional enfocado en la salud dermatológica y el confort de tu peludo.', icon: '🧼' },
@@ -73,7 +78,7 @@ export const SERVICES_CONTENT = {
   ]
 };
 
-// 5.1 Banner de Instalaciones
+// 5.1 Banner de Instalaciones (Estacionamiento)
 export const BANNER_CONTENT = {
   title: "Tu Comodidad es Nuestra Prioridad",
   subtitle: "Contamos con instalaciones de primer nivel diseñadas para una visita placentera.",
@@ -118,7 +123,7 @@ export const GALLERY_CONTENT = {
   ]
 };
 
-// 8. Opiniones (Testimonials)
+// 8. Opiniones (Testimonials) - Se muestra en scroll infinito
 export const TESTIMONIALS_CONTENT = {
   tag: "Confianza Comprobada",
   title: "La Voz de Nuestros Clientes",
@@ -149,7 +154,7 @@ export const CONTACT_CONTENT = {
   googleMapsUrl: "https://www.google.com/maps/place/Mundo+Jacome's+%7C+Cl%C3%ADnica+Veterinaria/@7.8225571,-72.2143455,17z/"
 };
 
-// 10. Sistema de Citas (Appointment)
+// 10. Sistema de Citas (Appointment Form)
 export const APPOINTMENT_CONTENT = {
   title: "Agenda tu Visita",
   steps: ['Servicio', 'Mascota', 'Dueño', 'Fecha', 'Confirmar'],
@@ -197,7 +202,7 @@ export const APPOINTMENT_CONTENT = {
   }
 };
 
-// 11. Footer
+// 11. Pie de Página (Footer)
 export const FOOTER_CONTENT = {
   description: "Centro médico veterinario líder en Táchira con más de 15 años de trayectoria. Comprometidos con el bienestar integral de tus mascotas.",
   sections: {
@@ -207,10 +212,10 @@ export const FOOTER_CONTENT = {
   },
   copyright: "© 2025 Mundo Jácome's. Todos los derechos reservados.",
   adminLink: "Acceso Administrativo",
-  privacyLink: "Política de Privacidad"
+  privacyLink: "desarrollado por Néstor Ovallos Cañas - www.nestorovallos.com"
 };
 
-// 12. ChatBot Inteligente
+// 12. ChatBot Inteligente (IA Gemini)
 export const CHATBOT_CONTENT = {
   name: "JácomeHelper",
   role: "IA de Soporte",
@@ -228,7 +233,7 @@ export const CHATBOT_CONTENT = {
 };
 
 /**
- * OBJETO PRINCIPAL - Mantiene compatibilidad con los componentes existentes.
+ * OBJETO PRINCIPAL - Mantiene compatibilidad con todos los componentes del sistema.
  */
 export const WEB_CONTENT = {
   system: SYSTEM_CONTENT,

@@ -14,7 +14,7 @@ const WelcomeView: React.FC<{ setActiveTab: (tab: AdminTab) => void }> = ({ setA
           <p className="text-slate-300 text-lg lg:text-xl font-medium leading-relaxed opacity-90 mb-10">
             Desde este panel podrás gestionar la presencia digital de tu clínica de manera sencilla y eficiente. 
             Actualiza servicios, gestiona citas médicas, publica nuevas fotos en tu galería y mantén el SEO de tu web 
-            siempre al día para seguir siendo la veterinaria líder en Táriba.
+            siempre al día para seguir siendo la veterinaria líder en la Región.
           </p>
           <div className="flex flex-wrap gap-4">
             <button 

@@ -13,10 +13,22 @@ import InstagramGallery from './components/InstagramGallery';
 import ChatBot from './components/ChatBot';
 import AdminDashboard from './components/AdminDashboard';
 
+/**
+ * @component App
+ * @description Componente raíz que orquestar la navegación entre la vista pública y el panel administrativo.
+ * Implementa un sistema de "enrutamiento" sencillo basado en el hash de la URL.
+ */
 const App: React.FC = () => {
+  // Estado para controlar la visibilidad del modal de citas
   const [isAppointmentModalOpen, setIsAppointmentModalOpen] = useState(false);
+  
+  // Estado de vista principal: 'public' para clientes, 'admin' para gestión
   const [view, setView] = useState<'public' | 'admin'>('public');
 
+  /**
+   * Efecto para manejar el cambio de vista basado en la URL.
+   * Si la URL termina en #admin, se muestra el panel administrativo.
+   */
   useEffect(() => {
     const handleHash = () => {
       if (window.location.hash === '#admin') {
@@ -32,8 +44,12 @@ const App: React.FC = () => {
 
   const toggleAppointmentModal = () => setIsAppointmentModalOpen(!isAppointmentModalOpen);
   
+  /**
+   * Función de navegación suave (Smooth Scroll)
+   * @param sectionId El ID del elemento HTML al que se desea desplazar.
+   */
   const navigateTo = (sectionId: string) => {
-    setView('public');
+    setView('public'); // Asegura que estemos en la vista pública antes de scrollear
     setTimeout(() => {
       const el = document.getElementById(sectionId);
       if (el) el.scrollIntoView({ behavior: 'smooth' });
@@ -43,6 +59,7 @@ const App: React.FC = () => {
   const openAdmin = () => setView('admin');
   const closeAdmin = () => setView('public');
 
+  // Renderizado condicional del Panel Administrativo
   if (view === 'admin') {
     return <AdminDashboard onClose={closeAdmin} />;
   }
@@ -66,6 +83,7 @@ const App: React.FC = () => {
           <Services />
         </section>
 
+        {/* Sección de Banner Informativo (Estacionamiento) */}
         <Banner />
 
         <section id="nosotros">
@@ -87,14 +105,17 @@ const App: React.FC = () => {
 
       <Footer onNavigate={navigateTo} onOpenAdmin={openAdmin} />
 
+      {/* Asistente IA flotante */}
       <ChatBot onOpenAppointment={toggleAppointmentModal} />
 
+      {/* Modal de Citas: Overlay con desenfoque de fondo */}
       {isAppointmentModalOpen && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm transition-all animate-in fade-in duration-300">
           <div className="bg-white rounded-3xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto overflow-x-hidden relative">
             <button 
               onClick={toggleAppointmentModal}
               className="absolute top-6 right-6 p-2 rounded-full hover:bg-slate-100 transition-colors z-10"
+              aria-label="Cerrar modal"
             >
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
