@@ -5,9 +5,11 @@ import { WEB_CONTENT } from '../constants/content';
 interface FooterProps {
   onNavigate: (id: string) => void;
   onOpenAdmin: () => void;
+  onToggleTheme?: () => void;
+  currentTheme?: string;
 }
 
-const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenAdmin }) => {
+const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenAdmin, onToggleTheme, currentTheme }) => {
   const { footer, common, navbar, contactSection } = WEB_CONTENT;
   return (
     <footer className="bg-brand-dark text-slate-400 py-20 border-t-8 border-brand">
@@ -39,13 +41,31 @@ const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenAdmin }) => {
             <p className="text-brand font-black text-lg">{common.phone}</p>
           </div>
 
-          <div>
+          <div className="space-y-6">
             <div className="bg-white/5 p-6 rounded-2xl border border-white/5">
               <p className="text-[10px] font-bold text-brand uppercase tracking-widest mb-2">{footer.sections.hours}</p>
               <p className="text-xs leading-relaxed text-slate-300">
                 {contactSection.hoursDays}
               </p>
             </div>
+
+            {/* BOTÓN PROVISIONAL PARA CAMBIO DE TEMA */}
+            {onToggleTheme && (
+              <button 
+                onClick={onToggleTheme}
+                className="w-full group flex items-center justify-between bg-gradient-to-r from-brand to-brand-dark p-4 rounded-2xl border border-white/10 shadow-lg hover:scale-[1.02] transition-all"
+              >
+                <div className="text-left">
+                  <p className="text-[9px] font-black text-white/60 uppercase tracking-widest">Previsualizar</p>
+                  <p className="text-[11px] font-black text-white uppercase tracking-tighter">
+                    {currentTheme === 'vibrant' ? 'Tema: Clásico (Marrón)' : 'Tema: Vibrante (Naranja)'}
+                  </p>
+                </div>
+                <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center text-white text-sm group-hover:rotate-12 transition-transform">
+                  🎨
+                </div>
+              </button>
+            )}
           </div>
         </div>
         

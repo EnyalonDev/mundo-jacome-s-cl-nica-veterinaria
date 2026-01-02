@@ -13,10 +13,10 @@
           extend: {
             colors: {
               brand: {
-                light: '#FDF8F3',
-                DEFAULT: '#926239',
-                dark: '#2A1B12',
-                accent: '#F5E8DC'
+                light: 'var(--color-brand-light)',
+                DEFAULT: 'var(--color-brand-main)',
+                dark: 'var(--color-brand-dark)',
+                accent: 'var(--color-brand-accent)'
               }
             },
             animation: {
@@ -33,6 +33,14 @@
       }
     </script>
     <style>
+        :root {
+          /* Valores por defecto (Classic Brown) */
+          --color-brand-light: #FDF8F3;
+          --color-brand-main: #926239;
+          --color-brand-dark: #2A1B12;
+          --color-brand-accent: #F5E8DC;
+        }
+
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             scroll-behavior: smooth;

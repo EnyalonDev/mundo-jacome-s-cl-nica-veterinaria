@@ -6,15 +6,30 @@
  * Está diseñado para que cualquier cambio aquí se refleje automáticamente en la web.
  */
 
+// Definición de paletas de colores (Temas)
+export const THEMES = {
+  classic: {
+    light: '#FDF8F3', // Crema muy claro
+    main: '#926239',  // Marrón medio
+    dark: '#2A1B12',  // Marrón casi negro
+    accent: '#F5E8DC' // Beige
+  },
+  vibrant: {
+    light: '#FEF9F5', // Blanco roto con tinte cálido
+    main: '#F77F00',  // NARANJA VIBRANTE (Protagonista)
+    dark: '#3D2616',  // MARRÓN PROFUNDO (Contraste)
+    accent: '#FCBF49' // ÁMBAR/AMARILLO (Acento)
+  }
+};
+
 // 1. Configuración de Sistema, SEO y Analítica
-// Útil para marketing y visibilidad en Google
 export const SYSTEM_CONTENT = {
   seo: {
     title: "Mundo Jácome's | Clínica Veterinaria en Táriba, Táchira",
     description: "Centro médico veterinario líder en Táchira. Especialistas en laboratorio clínico, cirugía avanzada y trámites de exportación internacional de mascotas.",
     keywords: "veterinaria tariba, clinica veterinaria tachira, exportacion mascotas venezuela, laboratorio veterinario, cirugia mascotas",
     author: "Mundo Jácome's Digital",
-    ogImage: "https://api.nestorovallos.com/media/general/img/2026-01-01/og-image.jpg" // Imagen que sale al compartir link por WhatsApp/Facebook
+    ogImage: "https://api.nestorovallos.com/media/general/img/2026-01-01/og-image.jpg"
   },
   analytics: {
     googleAnalyticsId: "G-JAC0ME2025",
@@ -22,14 +37,14 @@ export const SYSTEM_CONTENT = {
     trackingScripts: "<!-- Scripts adicionales de seguimiento aquí -->"
   },
   config: {
-    maintenanceMode: false, // Activar para ocultar el sitio temporalmente
-    enableChatbot: true,    // Controla la visibilidad de la IA Gemini
-    whatsappNumber: "584124506665" // Número destino para las notificaciones
+    maintenanceMode: false,
+    enableChatbot: true,
+    whatsappNumber: "584124506665",
+    activeTheme: 'vibrant' // OPCIONES: 'classic' | 'vibrant'
   }
 };
 
 // 2. Identidad de Marca y Datos Globales
-// Información básica que aparece en cabecera y pie de página
 export const COMMON_CONTENT = {
   name: "Mundo Jácome's",
   tagline: "Clínica Veterinaria",
@@ -55,7 +70,7 @@ export const NAVBAR_CONTENT = {
 export const HERO_CONTENT = {
   badge: "Atención desde las 8:30 AM",
   title: "Excelencia Médica para el Bienestar de tu Mascota",
-  highlight: "Bienestar", // Esta palabra saldrá con un color diferente (estilo énfasis)
+  highlight: "Bienestar",
   subtitle: "Somos el centro de referencia en Táriba para diagnósticos precisos, cirugías de alta complejidad y traslados internacionales seguros.",
   ctaPrimary: "Solicitar Cita Ahora",
   ctaSecondary: "Explorar Servicios",
@@ -63,14 +78,13 @@ export const HERO_CONTENT = {
   mainImage: "https://images.unsplash.com/photo-1596492784531-6e6eb5ea9993?auto=format&fit=crop&w=800&q=80"
 };
 
-// 5. Sección de Servicios - NUMERACIÓN SEGÚN SOLICITUD
-// Permite ordenar los servicios visualmente mediante la propiedad 'position'
+// 5. Sección de Servicios
 export const SERVICES_CONTENT = {
   tag: "Nuestras Especialidades",
   title: "Cuidado Integral y Especializado",
   list: [
     { position: 1, id: 'consulta', title: 'Consulta Médica', description: 'Evaluación exhaustiva por especialistas para garantizar la salud preventiva y curativa de tu mascota.', icon: '🩺' },
-    { position: 2, id: 'exportacion', title: 'Exportación Global', description: 'Gestión certificada de trámites INSAI para que tu mascota viaje a cualquier país sin contratiempos.', icon: '✈️', highlight: true }, // Highlight: sale con color sólido
+    { position: 2, id: 'exportacion', title: 'Exportación Global', description: 'Gestión certificada de trámites INSAI para que tu mascota viaje a cualquier país sin contratiempos.', icon: '✈️', highlight: true },
     { position: 3, id: 'laboratorio', title: 'Laboratorio Clínico', description: 'Equipamiento propio para resultados inmediatos en hematología y química sanguínea.', icon: '🔬' },
     { position: 4, id: 'cirugia', title: 'Cirugía de Avanzada', description: 'Quirófano equipado para procedimientos de tejidos blandos y traumatología especializada.', icon: '✂️' },
     { position: 5, id: 'estetica', title: 'Estética Veterinaria', description: 'Grooming profesional enfocado en la salud dermatológica y el confort de tu peludo.', icon: '🧼' },
@@ -78,7 +92,7 @@ export const SERVICES_CONTENT = {
   ]
 };
 
-// 5.1 Banner de Instalaciones (Estacionamiento)
+// 5.1 Banner de Instalaciones
 export const BANNER_CONTENT = {
   title: "Tu Comodidad es Nuestra Prioridad",
   subtitle: "Contamos con instalaciones de primer nivel diseñadas para una visita placentera.",
@@ -108,7 +122,7 @@ export const ABOUT_CONTENT = {
   features: ["Certificación INSAI", "Resultados el mismo día"]
 };
 
-// 7. Galería (Instagram Style)
+// 7. Galería
 export const GALLERY_CONTENT = {
   tag: "Momentos Jácome",
   title: "Historias de Recuperación",
@@ -123,7 +137,7 @@ export const GALLERY_CONTENT = {
   ]
 };
 
-// 8. Opiniones (Testimonials) - Se muestra en scroll infinito
+// 8. Opiniones
 export const TESTIMONIALS_CONTENT = {
   tag: "Confianza Comprobada",
   title: "La Voz de Nuestros Clientes",
@@ -138,7 +152,7 @@ export const TESTIMONIALS_CONTENT = {
   ]
 };
 
-// 9. Sección de Contacto y Mapa
+// 9. Sección de Contacto
 export const CONTACT_CONTENT = {
   tag: "Visítanos",
   title: "Estamos en Táriba",
@@ -154,7 +168,7 @@ export const CONTACT_CONTENT = {
   googleMapsUrl: "https://www.google.com/maps/place/Mundo+Jacome's+%7C+Cl%C3%ADnica+Veterinaria/@7.8225571,-72.2143455,17z/"
 };
 
-// 10. Sistema de Citas (Appointment Form)
+// 10. Sistema de Citas
 export const APPOINTMENT_CONTENT = {
   title: "Agenda tu Visita",
   steps: ['Servicio', 'Mascota', 'Dueño', 'Fecha', 'Confirmar'],
@@ -202,7 +216,7 @@ export const APPOINTMENT_CONTENT = {
   }
 };
 
-// 11. Pie de Página (Footer)
+// 11. Pie de Página
 export const FOOTER_CONTENT = {
   description: "Centro médico veterinario líder en Táchira con más de 15 años de trayectoria. Comprometidos con el bienestar integral de tus mascotas.",
   sections: {
@@ -215,7 +229,7 @@ export const FOOTER_CONTENT = {
   privacyLink: "desarrollado por Néstor Ovallos Cañas - www.nestorovallos.com"
 };
 
-// 12. ChatBot Inteligente (IA Gemini)
+// 12. ChatBot Inteligente
 export const CHATBOT_CONTENT = {
   name: "JácomeHelper",
   role: "IA de Soporte",
@@ -250,3 +264,5 @@ export const WEB_CONTENT = {
   footer: FOOTER_CONTENT,
   chatbot: CHATBOT_CONTENT
 };
+
+export const THEME_DEFAULT = SYSTEM_CONTENT.config.activeTheme;

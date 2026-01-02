@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { WEB_CONTENT } from '../../constants/content';
 
@@ -27,7 +26,11 @@ const VariablesView: React.FC = () => {
     alert("Variables de sistema actualizadas.");
   };
 
-  const Input = ({ label, path, area = false, type = "text" }: { label: string, path: string, area?: boolean, type?: string }) => {
+  /**
+   * Sub-componente de entrada de datos (Input) reutilizable.
+   * Fix: Added 'key' property to the interface to prevent TypeScript errors in .map() iterations.
+   */
+  const Input = ({ label, path, area = false, type = "text" }: { label: string; path: string; area?: boolean; type?: string; key?: React.Key }) => {
     const val = path.split('.').reduce((o, k) => o?.[k], localData);
     return (
       <div className="space-y-2">

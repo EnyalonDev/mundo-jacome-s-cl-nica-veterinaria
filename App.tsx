@@ -12,13 +12,18 @@ import MapSection from './components/MapSection';
 import InstagramGallery from './components/InstagramGallery';
 import ChatBot from './components/ChatBot';
 import AdminDashboard from './components/AdminDashboard';
+import { WEB_CONTENT, THEMES } from './constants/content';
 
 /**
  * @component App
  * @description Componente raíz que orquestar la navegación entre la vista pública y el panel administrativo.
- * Implementa un sistema de "enrutamiento" sencillo basado en el hash de la URL.
  */
 const App: React.FC = () => {
+  // Estado para el tema visual activo (Permite cambio en tiempo real para el cliente)
+  const [activeTheme, setActiveTheme] = useState<keyof typeof THEMES>(
+    (WEB_CONTENT.system.config.activeTheme as keyof typeof THEMES) || 'vibrant'
+  );
+
   // Estado para controlar la visibilidad del modal de citas
   const [isAppointmentModalOpen, setIsAppointmentModalOpen] = useState(false);
   
@@ -26,8 +31,19 @@ const App: React.FC = () => {
   const [view, setView] = useState<'public' | 'admin'>('public');
 
   /**
-   * Efecto para manejar el cambio de vista basado en la URL.
-   * Si la URL termina en #admin, se muestra el panel administrativo.
+   * Efecto para aplicar el tema visual basado en el estado activo.
+   */
+  useEffect(() => {
+    const themeColors = THEMES[activeTheme];
+    const root = document.documentElement;
+    root.style.setProperty('--color-brand-light', themeColors.light);
+    root.style.setProperty('--color-brand-main', themeColors.main);
+    root.style.setProperty('--color-brand-dark', themeColors.dark);
+    root.style.setProperty('--color-brand-accent', themeColors.accent);
+  }, [activeTheme]);
+
+  /**
+   * Efecto para manejar el cambio de vista basado en el hash de la URL.
    */
   useEffect(() => {
     const handleHash = () => {
@@ -44,12 +60,15 @@ const App: React.FC = () => {
 
   const toggleAppointmentModal = () => setIsAppointmentModalOpen(!isAppointmentModalOpen);
   
+  const toggleTheme = () => {
+    setActiveTheme(prev => prev === 'vibrant' ? 'classic' : 'vibrant');
+  };
+
   /**
    * Función de navegación suave (Smooth Scroll)
-   * @param sectionId El ID del elemento HTML al que se desea desplazar.
    */
   const navigateTo = (sectionId: string) => {
-    setView('public'); // Asegura que estemos en la vista pública antes de scrollear
+    setView('public');
     setTimeout(() => {
       const el = document.getElementById(sectionId);
       if (el) el.scrollIntoView({ behavior: 'smooth' });
@@ -65,7 +84,7 @@ const App: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-brand-light">
+    <div className="min-h-screen flex flex-col bg-brand-light transition-colors duration-700">
       <Navbar 
         onOpenAppointment={toggleAppointmentModal} 
         onNavigate={navigateTo}
@@ -83,7 +102,6 @@ const App: React.FC = () => {
           <Services />
         </section>
 
-        {/* Sección de Banner Informativo (Estacionamiento) */}
         <Banner />
 
         <section id="nosotros">
@@ -103,12 +121,15 @@ const App: React.FC = () => {
         </section>
       </main>
 
-      <Footer onNavigate={navigateTo} onOpenAdmin={openAdmin} />
+      <Footer 
+        onNavigate={navigateTo} 
+        onOpenAdmin={openAdmin} 
+        onToggleTheme={toggleTheme}
+        currentTheme={activeTheme}
+      />
 
-      {/* Asistente IA flotante */}
       <ChatBot onOpenAppointment={toggleAppointmentModal} />
 
-      {/* Modal de Citas: Overlay con desenfoque de fondo */}
       {isAppointmentModalOpen && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm transition-all animate-in fade-in duration-300">
           <div className="bg-white rounded-3xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto overflow-x-hidden relative">
